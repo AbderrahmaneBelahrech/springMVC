@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>patients-List</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+</head>
+<body>
+
+<!--<h1>Salam Abderrahmane, aykun al kher inchallah !</h1>-->
+<div class="p-3 m-2">
+    <div class="card">
+        <div class="card-header"> Liste des patients</div>
+        <div class="card-body">
+            <form method="get" th:action="@{/index}">
+                <label> Keyword</label>
+                    <input type="text" name="keyword" th:value="${keyword}">
+                    <button class="btn btn-outline-info">Rechercher</button>
+            </form>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>  <th>Nom</th>  <th>Prenom</th>  <th>Date Naissance</th>  <th>Malade</th>  <th>Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${ListPatients}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.nom}"></td>
+                    <td th:text="${p.prenom}"></td>
+                    <td th:text="${p.dateNaissance}"></td>
+                    <td th:text="${p.malade}"></td>
+                    <td th:text="${p.score}"></td>
+                    <td> <a onclick="return confirm('tu es sur?')"
+                            th:href="@{/deletePatient(id=${p.id},keyword=${keyword},page=${currentPage})}"
+                            class="btn btn-danger">Delete</a> </td>
+
+<!--                    <td>-->
+<!--                        <a th:href="@{/deletePatient/{id}(id=${p.id})}" class="btn btn-danger">Delete</a>-->
+<!--                    </td>-->
+
+                </tr>
+                </tbody>
+            </table>
+            <ul class="nav nav-pills">
+                <li th:each="page,IterationStatus : ${pages}">
+                    <a th:class="${IterationStatus.index==currentPage?'btn btn-info m-1':'btn btn-outline-info m-1'}"
+                       th:href="@{/index(page=${IterationStatus.index},keyword=${keyword})}"
+                       th:text="${IterationStatus.index}">
+
+                    </a>
+<!--                    <span th:if="${IterationStatus.first}"> (Premier)</span>-->
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
